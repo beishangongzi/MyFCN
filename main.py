@@ -17,7 +17,7 @@ def main():
     parser.add_option("--dataset", dest="dataset", default="data/obt/image", type="str",
                       help="dataset path)")
     (options, args) = parser.parse_args()
-    save_name = "-".join(options.__dict__.values())
+    save_name = "-".join(options.__dict__.values()).replace("/", "_")
     run(options.model, save_name, dataset=options.dataset, mode=options.mode, load_name=options.load_model)
 
 
