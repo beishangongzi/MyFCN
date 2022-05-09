@@ -77,7 +77,7 @@ class Train:
                     output = output.cpu().numpy()
                     output = np.argmax(output, 0)
                     morphology_x = output
-                    print(confmat(torch.tensor(output), target))
+                    print(confmat(torch.tensor(output).reshape([1, -1]), target.reshape([1, -1])))
                     print("\n\n\n----------------")
                     output = utils.Utils.to_color(output)
 
