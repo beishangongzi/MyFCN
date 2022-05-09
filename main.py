@@ -12,7 +12,7 @@ def main():
                       help="model for train (default: FCN32)")
     parser.add_option("-l", "--load_model", dest="load_model", default="", type="str",
                       help="model for train")
-    parser.add_option("--mode", dest="model", default="train", type="str",
+    parser.add_option("--mode", dest="mode", default="train", type="str",
                       help="model for train (default: FCN32)")
 
     (options, args) = parser.parse_args()
