@@ -78,7 +78,7 @@ class Train:
                     ground_truth = utils.Utils.to_color(ground_truth)
                     truth_name = os.path.join("data/obt/testImageMasks", names[i] + ".png")
                     PIL.Image.fromarray(ground_truth).save(truth_name)
-                    morphology_close = utils.Morphology.close(morphology_x)
+                    morphology_close = utils.Morphology.close(morphology_x.astype("uint8"))
                     morphology_close = utils.Utils.to_color(morphology_close)
                     morphology_close_name = os.path.join("data/obt/testImageMorphology/close", names[i] + ".png")
                     PIL.Image.fromarray(morphology_close).save(morphology_close_name)
