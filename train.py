@@ -19,7 +19,7 @@ class Train:
         print(f"using {self.device}")
         self.model = model.to(self.device)
 
-    def train(self):
+    def train(self, save_name):
         epoch = 100
         criterion = nn.CrossEntropyLoss().to(self.device)
         optimizer = optim.Adam(self.model.parameters(), lr=0.0001)
@@ -45,8 +45,8 @@ class Train:
                 running_loss += loss.cpu().item()
             print(running_loss / j / self.batch_size)
             if (i+1) % 10 == 0:
-                torch.save(self.model.state_dict(), f"/models/obt_10_{i}.pth")
-        torch.save(self.model.state_dict(), f"models/obt_10_last_.pth")
+                torch.save(self.model.state_dict(), f"/models/{save_name}_{i}.pth")
+        torch.save(self.model.state_dict(), f"models/{save_name}_last_.pth")
 
     def test(self, test_path, model):
         """
@@ -78,11 +78,11 @@ class Train:
 
 
 
-def train(model_name):
+def train(model_name, save_name):
     dataset = "data/obt/image"
     models = {"FCN32": FCN32, "FCN16": FCN16, "FCN8": FCN8}
 
     model = models.get(model_name)(256, 5)
     train = Train(dataset, model, 8, True)
-    train.train()
+    train.train(save_name)
 
