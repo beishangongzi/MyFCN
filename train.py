@@ -71,11 +71,11 @@ class Train:
                     output = output.cpu().numpy()
                     output = np.argmax(output, 0)
                     output = utils.Utils.to_color(output)
-                    pred_name = os.path.join("data/obt/testImagesPreds", names[i] + ".png")
+                    pred_name = os.path.join("data/obt/testImagePreds", names[i] + ".png")
                     PIL.Image.fromarray(output).save(pred_name)
-                    ground_truth = np.load("data/obt/testImagesMasks/" + names[i]).squeeze()
+                    ground_truth = np.load("data/obt/testImageMasks/" + names[i]).squeeze()
                     ground_truth = utils.Utils.to_color(ground_truth)
-                    truth_name = os.path.join("data/obt/testImagesMasks", names[i] + ".png")
+                    truth_name = os.path.join("data/obt/testImageMasks", names[i] + ".png")
                     PIL.Image.fromarray(ground_truth).save(truth_name)
 
 
