@@ -23,7 +23,7 @@ class Train:
         epoch = 100
         criterion = nn.CrossEntropyLoss().to(self.device)
         optimizer = optim.Adam(self.model.parameters(), lr=0.0001)
-        dl = DataLoader(dataset=self.dataset, batch_size=self.batch_size, shuffle=False)
+        dl = DataLoader(dataset=self.dataset, batch_size=self.batch_size, shuffle=True)
         for i in range(epoch):
             print("------------{} begin--------------".format(i))
             self.model.train()
