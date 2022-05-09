@@ -1,0 +1,7 @@
+.idea/
+data/
+models/
+__pycache__/
+*.png
+*.txt
+*.log
