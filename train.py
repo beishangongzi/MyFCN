@@ -70,14 +70,14 @@ class Train:
                 batch = outputs.size()[0]
                 for i in range(batch):
                     output = outputs[i]
-                    target = np.load("data/obt/testImageMasks/" + names[i])
-                    target = transforms.ToTensor()(target).squeeze().type(torch.int)
+                    target = torch.tensor(np.load("data/obt/testImageMasks/" + names[i]).squeeze())
                     confmat = ConfusionMatrix(num_classes=5)
 
                     output = output.cpu().numpy()
                     output = np.argmax(output, 0)
                     morphology_x = output
                     print(confmat(torch.tensor(output).reshape([1, -1]), target.reshape([1, -1])))
+                    # print(confmat(target.reshape([1, -1]), target.reshape([1, -1])))
                     print("\n\n\n----------------")
                     output = utils.Utils.to_color(output)
 
