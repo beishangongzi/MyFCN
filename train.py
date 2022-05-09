@@ -20,7 +20,7 @@ class Train:
         self.model = model.to(self.device)
 
     def train(self):
-        epoch = 10
+        epoch = 100
         criterion = nn.CrossEntropyLoss().to(self.device)
         optimizer = optim.Adam(self.model.parameters(), lr=0.0001)
         dl = DataLoader(dataset=self.dataset, batch_size=self.batch_size, shuffle=False)
@@ -44,7 +44,9 @@ class Train:
                 optimizer.step()
                 running_loss += loss.cpu().item()
             print(running_loss / j / self.batch_size)
-            torch.save(self.model.state_dict(), f"obt_10_{i}.pth")
+            if (i+1) % 10 == 0:
+                torch.save(self.model.state_dict(), f"obt_10_{i}.pth")
+        torch.save(self.model.state_dict(), f"obt_10_last_.pth")
 
     def test(self, test_path, model):
         """
