@@ -67,7 +67,7 @@ class Train:
                 outputs = self.model(inputs)
                 batch = outputs.size()[0]
                 for i in range(batch):
-                    output = outputs[batch]
+                    output = outputs[i]
                     output = output.cpu().numpy()
                     output = np.argmax(output, 0)
                     output = utils.Utils.to_color(output)
