@@ -70,6 +70,7 @@ class Train:
                     output = outputs[i]
                     output = output.cpu().numpy()
                     output = np.argmax(output, 0)
+                    morphology_x = output
                     output = utils.Utils.to_color(output)
                     pred_name = os.path.join("data/obt/testImagePreds", names[i] + ".png")
                     PIL.Image.fromarray(output).save(pred_name)
@@ -77,6 +78,11 @@ class Train:
                     ground_truth = utils.Utils.to_color(ground_truth)
                     truth_name = os.path.join("data/obt/testImageMasks", names[i] + ".png")
                     PIL.Image.fromarray(ground_truth).save(truth_name)
+                    morphology_close = utils.Morphology.close(morphology_x)
+                    morphology_close = utils.Utils.to_color(morphology_close)
+                    morphology_close_name = os.path.join("data/obt/testImageMorphology/close", names[i] + ".png")
+                    PIL.Image.fromarray(morphology_close).save(morphology_close_name)
+
 
 
 def run(model_name, save_name, mode, dataset, load_name=None):
