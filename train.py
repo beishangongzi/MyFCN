@@ -83,6 +83,20 @@ class Train:
                     morphology_close_name = os.path.join("data/obt/testImageMorphology/close", names[i] + ".png")
                     PIL.Image.fromarray(morphology_close).save(morphology_close_name)
 
+                    morphology_open = utils.Morphology.open(morphology_x.astype("uint8"))
+                    morphology_open = utils.Utils.to_color(morphology_open)
+                    morphology_open_name = os.path.join("data/obt/testImageMorphology/open", names[i] + ".png")
+                    PIL.Image.fromarray(morphology_open).save(morphology_open_name)
+
+                    morphology_erode = utils.Morphology.erode(morphology_x.astype("uint8"))
+                    morphology_erode = utils.Utils.to_color(morphology_erode)
+                    morphology_erode_name = os.path.join("data/obt/testImageMorphology/erode", names[i] + ".png")
+                    PIL.Image.fromarray(morphology_erode).save(morphology_erode_name)
+
+                    morphology_dilate = utils.Morphology.dilate(morphology_x.astype("uint8"))
+                    morphology_dilate = utils.Utils.to_color(morphology_dilate)
+                    morphology_dilate_name = os.path.join("data/obt/testImageMorphology/dilate", names[i] + ".png")
+                    PIL.Image.fromarray(morphology_dilate).save(morphology_dilate_name)
 
 
 def run(model_name, save_name, mode, dataset, load_name=None):

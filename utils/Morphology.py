@@ -15,13 +15,13 @@ class Morphology:
         return Morphology.fun(img, kernel_size, iterations, cv2.MORPH_CLOSE)
 
     @staticmethod
-    def open(img, kernel_size, iterations):
+    def open(img, kernel_size=3, iterations=1):
         return Morphology.fun(img, kernel_size, iterations, cv2.MORPH_OPEN)
 
     @staticmethod
-    def dilate(img, kernel_size, iterations):
+    def dilate(img, kernel_size=3, iterations=1):
         return Morphology.fun(img, kernel_size, iterations, cv2.MORPH_DILATE)
 
     @staticmethod
-    def erode(img, kernel_size, iterations):
+    def erode(img, kernel_size=3, iterations=1):
         return Morphology.fun(img, kernel_size, iterations, cv2.MORPH_ERODE)
