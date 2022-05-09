@@ -5,6 +5,8 @@ from typing import List
 
 from spectral import save_rgb
 
+from .Morphology import Morphology
+
 
 def _any2dec(original_num: str, positional_numeral_system: int) -> int:
     return int(original_num, positional_numeral_system)
