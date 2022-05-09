@@ -1,9 +1,10 @@
 # create by andy at 2022/5/8
 # reference:
 from torch import nn
+from model.FCN import FCN
 
 
-class FCN16(nn.Module):
+class FCN16(FCN):
     def forward(self, x):
         feature_32 = self.features(x)["pool32"]
         feature_16 = self.features(x)["pool16"]
