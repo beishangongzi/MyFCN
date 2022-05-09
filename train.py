@@ -79,8 +79,7 @@ class Train:
                     PIL.Image.fromarray(ground_truth).save(truth_name)
 
 
-def run(model_name, save_name, mode, load_name=None):
-    dataset = "data/obt/image"
+def run(model_name, save_name, mode, dataset, load_name=None):
     models = {"FCN32": FCN32, "FCN16": FCN16, "FCN8": FCN8}
 
     model = models.get(model_name)(256, 5)

@@ -14,10 +14,11 @@ def main():
                       help="model for train")
     parser.add_option("--mode", dest="mode", default="train", type="str",
                       help="model for train (default: FCN32)")
-
+    parser.add_option("--dataset", dest="dataset", default="data/obt/image", type="str",
+                      help="dataset path)")
     (options, args) = parser.parse_args()
     save_name = "-".join(options.__dict__.values())
-    run(options.model, save_name, mode=options.mode, load_name=options.load_model)
+    run(options.model, save_name, dataset=options.dataset, mode=options.mode, load_name=options.load_model)
 
 
 if __name__ == '__main__':
