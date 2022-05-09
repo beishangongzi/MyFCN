@@ -78,6 +78,7 @@ class Train:
                     output = np.argmax(output, 0)
                     morphology_x = output
                     print(confmat(torch.tensor(output), target))
+                    print("\n\n\n----------------")
                     output = utils.Utils.to_color(output)
 
                     pred_name = os.path.join("data/obt/testImagePreds", names[i] + ".png")
