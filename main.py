@@ -2,7 +2,7 @@
 # reference:
 from optparse import OptionParser
 
-from train import train
+from train import run
 
 
 def main():
@@ -10,11 +10,15 @@ def main():
     parser.add_option("--prefix", dest="prefix", default="a", type=str, help="the prefix of model name")
     parser.add_option("-m", "--model", dest="model", default="FCN32", type="str",
                       help="model for train (default: FCN32)")
-
+    parser.add_option("-l", "--load_model", dest="load_model", default="", type="str",
+                      help="model for train")
+    parser.add_option("--mode", dest="model", default="train", type="str",
+                      help="model for train (default: FCN32)")
 
     (options, args) = parser.parse_args()
     save_name = "-".join(options.__dict__.values())
-    train(options.model, save_name)
+    run(options.model, save_name, mode=options.mode, load_name=options.load_model)
+
 
 if __name__ == '__main__':
     main()

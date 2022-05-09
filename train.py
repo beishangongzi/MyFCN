@@ -1,3 +1,5 @@
+import os.path
+
 import PIL.Image
 import numpy as np
 import torch.cuda
@@ -10,9 +12,9 @@ from model.FCN import FCN32, FCN16, FCN8
 
 
 class Train:
-    def __init__(self, dataset_path, model, batch_size, shuffle):
+    def __init__(self, dataset_path, model, batch_size, shuffle, mode="train"):
 
-        self.dataset = dataset.ObtTrainDataset(dataset_path)
+        self.dataset = dataset.ObtTrainDataset(dataset_path, mode=mode)
         self.batch_size = batch_size
         self.shuffle = shuffle
         self.device = "cuda" if torch.cuda.is_available() else "cpu"
@@ -44,45 +46,46 @@ class Train:
                 optimizer.step()
                 running_loss += loss.cpu().item()
             print(running_loss / j / self.batch_size)
-            if (i+1) % 10 == 0:
+            if (i + 1) % 10 == 0:
                 torch.save(self.model.state_dict(), f"models/{save_name}_{i}.pth")
         torch.save(self.model.state_dict(), f"models/{save_name}_last_.pth")
 
-    def test(self, test_path, model):
+    def test(self, save_name):
         """
         this is shit. don't see it.
         :param test_path:
         :param model:
         :return:
         """
-        dl = DataLoader(dataset.ObtTrainDataset(test_path, mode="test"), batch_size=10, shuffle=False)
-        self.model.load_state_dict(torch.load("obt_10_9.pth"))
+        self.model.load_state_dict(torch.load(save_name))
+        dl = DataLoader(dataset=self.dataset, batch_size=self.batch_size, shuffle=False)
+        self.model.eval()
+        with torch.no_grad():
+            for data in dl:
+                inputs, names = data
+                inputs = inputs.to(self.device)
+                outputs = self.model(inputs)
+                batch = outputs.size()[0]
+                for i in range(batch):
+                    output = outputs[batch]
+                    output = output.cpu().numpy()
+                    output = np.argmax(output, 0)
+                    output = utils.Utils.to_color(output)
+                    pred_name = os.path.join("data/obt/testImages", names[i] + ".png")
+                    PIL.Image.fromarray(output).save(pred_name)
+                    ground_truth = np.load("data/obt/testImagesMasks/" + names[i]).squeeze()
+                    ground_truth = utils.Utils.to_color(ground_truth)
+                    truth_name = os.path.join("data/obt/testImagesMasks", names[i] + ".png")
+                    PIL.Image.fromarray(ground_truth).save(truth_name)
 
-        for data in dl:
-            inputs, target = data
-            inputs = inputs.to(self.device)
-            outputs = self.model(inputs)
-            print(outputs.size())
-            # print(outputs[0].size())
-            n = outputs[0].detach().numpy()
-            a = np.argmax(n, 0)
-            a = utils.Utils.to_color(a)
-            PIL.Image.fromarray(a).save("r.png")
-            print(inputs[0].size())
-            a = np.load("data/obt/testMasks/" + target[0])
-            print(a.shape)
-            a = utils.Utils.to_color(a.squeeze())
-            PIL.Image.fromarray(a).save("rr.png")
-            break
 
-
-
-
-def train(model_name, save_name):
+def run(model_name, save_name, mode, load_name=None):
     dataset = "data/obt/image"
     models = {"FCN32": FCN32, "FCN16": FCN16, "FCN8": FCN8}
 
     model = models.get(model_name)(256, 5)
-    train = Train(dataset, model, 8, True)
-    train.train(save_name)
-
+    train = Train(dataset, model, 8, True, mode=mode)
+    if mode == "train":
+        train.train(save_name)
+    else:
+        train.test(load_name)
