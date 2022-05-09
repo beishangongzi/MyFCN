@@ -6,7 +6,7 @@ from torch.utils.data import DataLoader
 
 import dataset
 import utils
-from model.FCN import FCN32
+from model.FCN import FCN32, FCN16, FCN8
 
 
 class Train:
@@ -78,12 +78,11 @@ class Train:
 
 
 
-def test():
+def train(model_name):
     dataset = "data/obt/image"
-    model = FCN32(256, 5)
+    models = {"FCN32": FCN32, "FCN16": FCN16, "FCN8": FCN8}
+
+    model = models.get(model_name)(256, 5)
     train = Train(dataset, model, 8, True)
     train.train()
 
-
-if __name__ == '__main__':
-    test()
