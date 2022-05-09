@@ -5,6 +5,8 @@ import numpy as np
 import torch.cuda
 from torch import nn, optim
 from torch.utils.data import DataLoader
+from torchmetrics import ConfusionMatrix
+from torchvision import transforms
 
 import dataset
 import utils
@@ -68,10 +70,16 @@ class Train:
                 batch = outputs.size()[0]
                 for i in range(batch):
                     output = outputs[i]
+                    target = np.load("data/obt/testImageMasks/" + names[i])
+                    target = transforms.ToTensor()(target).squeeze().type(torch.int)
+                    confmat = ConfusionMatrix(num_classes=5)
+
                     output = output.cpu().numpy()
                     output = np.argmax(output, 0)
                     morphology_x = output
+                    print(confmat(torch.tensor(output), target))
                     output = utils.Utils.to_color(output)
+
                     pred_name = os.path.join("data/obt/testImagePreds", names[i] + ".png")
                     PIL.Image.fromarray(output).save(pred_name)
                     ground_truth = np.load("data/obt/testImageMasks/" + names[i]).squeeze()
