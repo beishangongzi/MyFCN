@@ -32,15 +32,18 @@ class VGG16(nn.Module):
     def forward(self, x):
         x = F.relu(self.conv1_1(x))
         x = F.relu(self.conv1_2(x))
+        pool1 = x
         # 2s
         x = self.maxpool(x)
         x = F.relu(self.conv2_1(x))
         x = F.relu(self.conv2_2(x))
+        pool2 = x
         # 4s
         x = self.maxpool(x)
         x = F.relu(self.conv3_1(x))
         x = F.relu(self.conv3_2(x))
         x = F.relu(self.conv3_3(x))
+        pool4 = x
         # 8s
         x = self.maxpool(x)
         pool_8 = x
@@ -61,7 +64,10 @@ class VGG16(nn.Module):
 
         return {"pool32": pool_32,
                 "pool16": pool_16,
-                "pool8": pool_8}
+                "pool8": pool_8,
+                "pool1": pool1,
+                "pool2": pool2,
+                "pool4": pool4}
 
 
 def test():

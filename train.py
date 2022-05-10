@@ -11,6 +11,7 @@ from torchvision import transforms
 import dataset
 import utils
 from model.FCN import FCN32, FCN16, FCN8
+from model.Unet.Unet import Unet
 
 
 class Train:
@@ -109,7 +110,7 @@ class Train:
 
 
 def run(model_name, save_name, mode, dataset, backbone, load_name=None):
-    models = {"FCN32": FCN32, "FCN16": FCN16, "FCN8": FCN8}
+    models = {"FCN32": FCN32, "FCN16": FCN16, "FCN8": FCN8, "Unet": Unet}
 
     model = models.get(model_name)(5, backbone)
     train = Train(dataset, model, 8, True, mode=mode)
