@@ -3,7 +3,7 @@ import torch.nn.functional as F
 
 
 class VGG16(nn.Module):
-    def __init__(self, input_size):
+    def __init__(self):
         super(VGG16, self).__init__()
         self.conv1_1 = nn.Conv2d(in_channels=32, out_channels=64, kernel_size=3, padding="same")
         self.conv1_2 = nn.Conv2d(in_channels=64, out_channels=64, kernel_size=3, padding="same")
@@ -25,9 +25,9 @@ class VGG16(nn.Module):
 
         self.maxpool = nn.MaxPool2d(kernel_size=2, stride=2)
 
-        self.fc1 = nn.Linear((input_size // 32) ** 2 * 512, 4096)
-        self.fc2 = nn.Linear(4096, 4096)
-        self.fc3 = nn.Linear(4096, 10)
+        # self.fc1 = nn.Linear((input_size // 32) ** 2 * 512, 4096)
+        # self.fc2 = nn.Linear(4096, 4096)
+        # self.fc3 = nn.Linear(4096, 10)
 
     def forward(self, x):
         x = F.relu(self.conv1_1(x))
@@ -65,7 +65,7 @@ class VGG16(nn.Module):
 
 
 def test():
-    vgg = VGG16(256)
+    vgg = VGG16()
     from torchsummary import summary
     summary(vgg, input_size=(32, 256, 256))
 
