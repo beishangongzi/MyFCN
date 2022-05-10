@@ -62,7 +62,7 @@ class ResNet(nn.Module):
     def __init__(self, blocks, num_classes=1000, expansion=4):
         super(ResNet, self).__init__()
         self.expansion = expansion
-        self.conv1 = Conv1(in_channels=3, out_channels=64)
+        self.conv1 = Conv1(in_channels=32, out_channels=64)
 
         self.layer1 = self.make_layer(64, 64, block=blocks[0], stride=1)
         self.layer2 = self.make_layer(256, 128, blocks[1], 2)
@@ -119,4 +119,4 @@ if __name__ == '__main__':
     model = ResNet.get_resnet50()
     from torchsummary import summary
 
-    summary(model, input_size=(3, 256, 256))
+    summary(model, input_size=(32, 256, 256))
