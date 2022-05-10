@@ -2,8 +2,8 @@
 # reference:
 from torch import nn
 
-from model.FCN.ResNet import ResNet
-from model.FCN.vgg import VGG16
+from model.subsampled.ResNet import ResNet
+from model.subsampled.vgg import VGG16
 
 
 class FCN(nn.Module):
