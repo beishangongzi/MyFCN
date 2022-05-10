@@ -33,7 +33,7 @@ class FCN32(FCN):
 
 def test():
     test_data = torch.zeros([1, 32, 256, 256])
-    model = FCN32(256, 5, "vgg16")
+    model = FCN32(5, "vgg16")
     model(test_data)
 
 if __name__ == '__main__':

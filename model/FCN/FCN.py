@@ -7,7 +7,7 @@ from model.FCN.vgg import VGG16
 
 
 class FCN(nn.Module):
-    def __init__(self, input_size, num_classes, backbone="vgg16"):
+    def __init__(self, num_classes, backbone="vgg16"):
         super().__init__()
         all_backones = ["vgg16", "resnet50", "resnet101", "resnet152"]
         if backbone == "vgg16":
