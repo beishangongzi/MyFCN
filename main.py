@@ -18,9 +18,16 @@ def main():
                       help="dataset path)")
     parser.add_option("--backbone", dest="backbone", default="resnet50", type="str",
                       help="dataset path)")
+    parser.add_option("--save_freq", dest="save_freq", default=20, type=int,
+                      help="how many epoch to save model")
     (options, args) = parser.parse_args()
     save_name = "-".join(options.__dict__.values()).replace("/", "_")
-    run(options.model, save_name, backbone=options.backbone, dataset=options.dataset, mode=options.mode, load_name=options.load_model)
+    run(options.model, save_name,
+        backbone=options.backbone,
+        dataset=options.dataset,
+        mode=options.mode,
+        load_name=options.load_model,
+        save_freq=options.save_freq)
 
 
 if __name__ == '__main__':

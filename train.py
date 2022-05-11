@@ -24,7 +24,7 @@ class Train:
         print(f"using {self.device}")
         self.model = model.to(self.device)
 
-    def train(self, save_name):
+    def train(self, save_name, save_freq):
         epoch = 100
         criterion = nn.CrossEntropyLoss().to(self.device)
         optimizer = optim.Adam(self.model.parameters(), lr=0.0001)
@@ -49,8 +49,8 @@ class Train:
                 optimizer.step()
                 running_loss += loss.cpu().item()
             print(running_loss / j / self.batch_size)
-            if (i + 1) % 10 == 0:
-                torch.save(self.model.state_dict(), f"models/{save_name}_{i}.pth")
+            if (i + 1) % save_freq == 0:
+                torch.save(self.model.state_dict(), f"models/{save_name}.pth")
         torch.save(self.model.state_dict(), f"models/{save_name}_last_.pth")
 
     def test(self, save_name):
@@ -109,12 +109,12 @@ class Train:
                     PIL.Image.fromarray(morphology_dilate).save(morphology_dilate_name)
 
 
-def run(model_name, save_name, mode, dataset, backbone, load_name=None):
+def run(model_name, save_name, mode, dataset, backbone, load_name=None, save_freq=20):
     models = {"FCN32": FCN32, "FCN16": FCN16, "FCN8": FCN8, "Unet": Unet}
 
     model = models.get(model_name)(5, backbone)
     train = Train(dataset, model, 8, True, mode=mode)
     if mode == "train":
-        train.train(save_name)
+        train.train(save_name, save_freq)
     else:
         train.test(load_name)
