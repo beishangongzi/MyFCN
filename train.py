@@ -24,10 +24,10 @@ class Train:
         print(f"using {self.device}")
         self.model = model.to(self.device)
 
-    def train(self, save_name, save_freq):
-        epoch = 100
+    def train(self, save_name, save_freq, lr, epoch):
+        epoch = epoch
         criterion = nn.CrossEntropyLoss().to(self.device)
-        optimizer = optim.Adam(self.model.parameters(), lr=0.0001)
+        optimizer = optim.Adam(self.model.parameters(), lr=lr)
         dl = DataLoader(dataset=self.dataset, batch_size=self.batch_size, shuffle=True)
         for i in range(epoch):
             print("------------{} begin--------------".format(i))
@@ -109,12 +109,14 @@ class Train:
                     PIL.Image.fromarray(morphology_dilate).save(morphology_dilate_name)
 
 
-def run(model_name, save_name, mode, dataset, backbone, load_name=None, save_freq=20):
+def run(model_name, save_name, mode, dataset, backbone, lr, epoch, load_name=None, save_freq=20):
     models = {"FCN32": FCN32, "FCN16": FCN16, "FCN8": FCN8, "Unet": Unet}
 
     model = models.get(model_name)(5, backbone)
     train = Train(dataset, model, 8, True, mode=mode)
     if mode == "train":
-        train.train(save_name, save_freq)
+        train.train(save_name, save_freq,
+                    lr=lr,
+                    epoch=epoch)
     else:
         train.test(load_name)

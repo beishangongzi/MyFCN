@@ -20,14 +20,20 @@ def main():
                       help="dataset path)")
     parser.add_option("--save_freq", dest="save_freq", default=20, type=int,
                       help="how many epoch to save model")
+    parser.add_option("--epoch", dest="epoch", default=100, type=int,
+                      help="how many epoch to save model")
+    parser.add_option("--lr", dest="lr", default=0.0001, type=int,
+                      help="how many epoch to save model")
     (options, args) = parser.parse_args()
-    save_name = "-".join(options.__dict__.values()).replace("/", "_")
+    save_name = "_".join([options.model, options.backbone, str(options.epoch), str(options.lr)]).replace("/", "_")
     run(options.model, save_name,
         backbone=options.backbone,
         dataset=options.dataset,
         mode=options.mode,
         load_name=options.load_model,
-        save_freq=options.save_freq)
+        save_freq=options.save_freq,
+        lr=options.lr,
+        epoch=options.epoch)
 
 
 if __name__ == '__main__':
