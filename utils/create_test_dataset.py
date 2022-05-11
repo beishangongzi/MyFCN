@@ -22,7 +22,7 @@ def move_files(src, dist):
         shutil.move(os.path.join(src, f), os.path.join(dist, f))
 
 
-os.chdir("../data/obt")
+os.chdir(os.path.join(os.path.dirname(__file__), "..", "data", "obt"))
 
 
 testImagePreds = "testImagePreds"
